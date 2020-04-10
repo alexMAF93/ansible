@@ -1,0 +1,25 @@
+---
+  - name: You're about to install git
+    hosts: testserver
+    become: true
+  
+  
+    tasks:
+    - name: Installing git
+      dnf:   
+          name: git  
+          state: present
+  
+    - name: Cloning the playground repository
+      git:
+        repo: 'https://github.com/alexMAF93/playground.git'
+        dest: /home/amitroi/playground
+
+
+    - name: Changing the permissions on /home/amitroi/playground
+      file:
+        group: amitroi
+        owner: amitroi
+        path: /home/amitroi/playground
+        state: directory
+        recurse: yes

@@ -1,0 +1,15 @@
+---
+- name: Playbook that upgrades the packages that are installed and autoremoves the unused ones
+  hosts: all
+  become: true
+
+
+  tasks:
+    - name: Upgrading the packages
+      dnf: 
+        name: "*"
+        state: latest
+
+    - name: Autoremoving unused packages
+      dnf:
+        autoremove: yes
