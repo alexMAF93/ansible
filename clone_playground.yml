@@ -1,11 +1,11 @@
 ---
-  - name: You're about to install git
+  - name: Clones the playground repo from github
     hosts: testserver
     become: true
   
   
     tasks:
-    - name: Installing git
+    - name: Installing git if not available 
       dnf:   
           name: git  
           state: present
