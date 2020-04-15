@@ -1,0 +1,32 @@
+---
+    - name: Clones the playground repo from github
+      hosts: all
+      become: true
+    
+      vars:
+        provider:
+          user_name: ""
+
+      tasks:
+      - name: Installing git if not available 
+        dnf:   
+            name: git  
+            state: present
+    
+      - name: Cloning the playground repository
+        git:
+          repo: 'https://github.com/alexMAF93/playground.git'
+          dest: /home/{{ user_name }}/playground
+  
+  
+      - name: Changing the permissions on /home/{{ user_name }}/playground
+        file:
+          group: "{{ user_name }}"
+          owner: "{{ user_name }}"
+          path: /home/{{ user_name }}/playground
+          state: directory
+          recurse: yes
+      
+      - name: Executing install_docker.sh
+        command: 
+          cmd: /home/{{ user_name }}/playground/utils/install_docker.sh {{ user_name }}
