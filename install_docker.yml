@@ -19,7 +19,7 @@
           dest: /home/{{ user_name }}/playground
   
   
-      - name: Changing the permissions on /home/{{ user_name }}/playground
+      - name: Changing the ownership on /home/{{ user_name }}/playground
         file:
           group: "{{ user_name }}"
           owner: "{{ user_name }}"
