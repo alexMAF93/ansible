@@ -16,17 +16,15 @@
       - name: Cloning the playground repository
         git:
           repo: 'https://github.com/alexMAF93/playground.git'
-          dest: /home/{{ user_name }}/playground
+          dest: /tmp/playground
   
-  
-      - name: Changing the ownership on /home/{{ user_name }}/playground
-        file:
-          group: "{{ user_name }}"
-          owner: "{{ user_name }}"
-          path: /home/{{ user_name }}/playground
-          state: directory
-          recurse: yes
       
       - name: Executing install_docker.sh
         command: 
-          cmd: /home/{{ user_name }}/playground/utils/install_docker.sh {{ user_name }}
+          cmd: /tmp/playground/utils/install_docker.sh {{ user_name }}
+
+          
+      - name: Removing the playground directory
+        file:
+          path: /tmp/playground
+          state: absent
