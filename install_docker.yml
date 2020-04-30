@@ -8,27 +8,29 @@
           user_name: ""
 
       tasks:
-      - name: Installing git if not available 
-        dnf:   
-            name: git  
-            state: present
-    
-      - name: Cloning the playground repository
-        git:
-          repo: 'https://github.com/alexMAF93/playground.git'
-          dest: /tmp/playground
-  
-      
-      - name: Executing install_docker.sh
-        command: 
-          cmd: /tmp/playground/utils/install_docker.sh {{ user_name }}
-
+      - name: Installing container-io
+        dnf:
+          name: 'https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm'
+          state: present
           
-      - name: Removing the playground directory
-        file:
-          path: /tmp/playground
-          state: absent
+      - name: Installing docker-ce
+        dnf:
+          name: docker-ce
+          enablerepo: https://download.docker.com/linux/centos/docker-ce.repo
+          state: present
+          install_weak_deps: yes
 
+      - name: Starting and enabling the docker service
+        systemd:
+          name: docker
+          state: started
+          enabled: yes
+      
+      - name: Adding the user {{ user_name }} in the docker group
+        user:
+          name: "{{ user_name }}" 
+          groups: docker
+ 
       - name: Download docker-compose
         get_url:
           url: https://github.com/docker/compose/releases/download/1.25.5/docker-compose-Linux-x86_64
