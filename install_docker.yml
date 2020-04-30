@@ -1,5 +1,5 @@
 ---
-    - name: Clones the playground repo from github
+    - name: Installs docker and docker-compose on RHEL servers
       hosts: all
       become: true
     
