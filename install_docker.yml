@@ -30,6 +30,8 @@
         user:
           name: "{{ user_name }}" 
           groups: docker
+          append: True
+          state: present
  
       - name: Download docker-compose
         get_url:
